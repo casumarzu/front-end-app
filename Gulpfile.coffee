@@ -76,15 +76,16 @@ gulp.task "js", ->
   #     .pipe gulp.dest "#{destPath}/scripts"
   #     .pipe connect.reload()
 
+amdOptimize = require "amd-optimize"
+concat = require "gulp-concat",
+gulp.task "rjs", ->
+  gulp.src path.scripts
+  .pipe coffee()
+  .pipe amdOptimize "main"
+  .pipe concat "main-bundle.js"
+  .pipe uglify()
+  .pipe gulp.dest "prod/scripts"
 
-rjs = require "gulp-requirejs"
-
-gulp.task "requirejsBuild", ->
-  rjs(
-    name: 'main'
-    baseUrl: "./prod/scripts"
-    out: "main.min.js"
-  ).pipe gulp.dest("./prod/scripts")
 
 
 sass = require 'gulp-sass'
@@ -197,11 +198,11 @@ DEV_TASKS = do ->
     'clean'
     'copy'
     'watch'
+    'sass'
+    'cssimage'
     'html'
     'js'
     'sprite'
-    'sass'
-    'cssimage'
     'connect'
     'watch'
     'browser-sync'
@@ -213,13 +214,14 @@ PROD_TASKS = do ->
     'set-prod'
     'clean'
     'copy'
-    'html'
-    'js'
-    'requirejsBuild'
     'sprite'
     'sass'
     'cssimage'
+    'html'
+    'js'
+    'rjs'
     'connect'
+    'browser-sync'
   ]
   build
 
@@ -229,7 +231,8 @@ gulp.task "prod", gulpsync.sync PROD_TASKS
 
 
 ###
-todo запилить прокси сервер
+todo rjs build
 todo запилить сборку в продакшн
+todo запилить прокси сервер
 todo запилить деплой
 ###

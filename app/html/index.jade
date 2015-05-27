@@ -1,6 +1,9 @@
 extends ./_base.jade
 block content
-  script(src="/bower_components/jquery/dist/jquery.js")
+  h1 Some text
+  h2 Some text
+  h3 Some text
+  h4 Some text
   script
     :coffee
       class Page
@@ -8,9 +11,6 @@ block content
           console.log "page #{@page}"
 
       class IndexPage extends Page
-        constructor:->
-          super
-          $('body').append "<div><h1>hello #{@page}</h1></div>"
 
       indexPage = new IndexPage 'index'
 
