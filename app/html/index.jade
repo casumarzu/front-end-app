@@ -1,2 +1,17 @@
 extends ./_base.jade
 block content
+  script(src="/bower_components/jquery/dist/jquery.js")
+  script
+    :coffee
+      class Page
+        constructor:(@page)->
+          console.log "page #{@page}"
+
+      class IndexPage extends Page
+        constructor:->
+          super
+          $('body').append "<div><h1>hello #{@page}</h1></div>"
+
+      indexPage = new IndexPage 'index'
+
+

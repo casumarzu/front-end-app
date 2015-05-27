@@ -2,6 +2,7 @@ gulp = require 'gulp'
 $ = require('gulp-load-plugins')()
 gulpsync = require("gulp-sync")(gulp)
 gutil = require 'gulp-util'
+gulpif = require 'gulp-if'
 _ = require 'lodash'
 # _ = require 'underscore'
 chalk = require 'chalk'
@@ -177,6 +178,19 @@ gulp.task "sprite", ->
   spriteData.pipe gulp.dest 'app/styles'
 
 gulp.task 'set-prod', -> config.production = true
+
+
+storage = require('gulp-storage')(gulp)
+
+gulp.storage.create 'ImagesJson', 'app/scripts/images.json'
+
+gulp.task 'storageJSON',['addData'], ->
+  # appName = @storage.get 'appName'
+
+gulp.task 'addData', ->
+  images = []
+  _.each [1..120], (e)=>
+    @storage.set 'image', "/images/image-#{e}.png"
 
 DEV_TASKS = do ->
   build = [
