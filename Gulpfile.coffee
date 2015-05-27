@@ -182,6 +182,7 @@ DEV_TASKS = do ->
   build = [
     'clean'
     'copy'
+    'watch'
     'html'
     'js'
     'sprite'
