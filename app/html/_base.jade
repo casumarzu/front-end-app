@@ -1,0 +1,9 @@
+doctype html
+html(lang="en")
+  head
+    title= pageTitle
+    link(rel="stylesheet", href='/styles/index.css')
+    script(src="/bower_components/modernizr/modernizr.js")
+  body
+    block content
+    script(data-main="scripts/main.js" src="/bower_components/requirejs/require.js")
