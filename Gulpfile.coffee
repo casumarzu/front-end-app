@@ -87,6 +87,63 @@ gulp.task "rjs", ->
   .pipe gulp.dest "prod/scripts"
 
 
+browserify = require 'browserify'
+source = require 'vinyl-source-stream'
+watchify = require "watchify"
+
+browserifyShare = ->
+  b = browserify(
+    cache: {}
+    packageCache: {}
+    fullPaths: true
+  )
+  if watch
+    b = watchify(b)
+    b.on "update", ->
+      bundleShare b
+
+  b.add "./app/scripts/app.coffee"
+  bundleShare b
+
+bundleShare = (b) ->
+  b.bundle()
+  .pipe source "bundle.js"
+  .pipe gulp.dest "#{destPath}/scripts"
+  .pipe gulpif watch, connect.reload()
+
+watch = undefined
+gulp.task "browserify-nowatch", ->
+  watch = false
+  browserifyShare()
+
+gulp.task "browserify", ->
+  destPath = getProd()
+  watch = true
+  browserifyShare()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 sass = require 'gulp-sass'
 prefix = require 'gulp-autoprefixer'
@@ -146,9 +203,14 @@ gulp.task "copy", ->
     .pipe gulp.dest "#{destPath}/bower_components/"
     .pipe connect.reload()
 
+
+gulp.task 'reload', ->
+  gulp.src path.scripts
+  .pipe connect.reload()
+
 gulp.task "watch", ->
   destPath = getProd()
-  gulp.watch path.scripts, ["js"]
+  gulp.watch path.scripts, ["reload"]
   gulp.watch path.css, ["sass"]
   gulp.watch path.html, ["html"]
   gulp.watch path.bower_components, ["clean", "copy"]
@@ -207,11 +269,10 @@ DEV_TASKS = do ->
     'sass'
     'cssimage'
     'html'
-    'js'
     'sprite'
     'connect'
-    'watch'
     'browser-sync'
+    'browserify'
   ]
   build
 
@@ -224,10 +285,9 @@ PROD_TASKS = do ->
     'sass'
     'cssimage'
     'html'
-    'js'
-    'rjs'
     'connect'
     'browser-sync'
+    'browserify-nowatch'
   ]
   build
 
@@ -237,9 +297,6 @@ gulp.task "prod", gulpsync.sync PROD_TASKS
 
 
 ###
-todo rjs build
-todo browserify
-todo запилить сборку в продакшн
 todo запилить прокси сервер
 todo запилить деплой
 ###
