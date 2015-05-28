@@ -4,7 +4,6 @@ gulpsync = require("gulp-sync")(gulp)
 gutil = require 'gulp-util'
 gulpif = require 'gulp-if'
 _ = require 'lodash'
-# _ = require 'underscore'
 chalk = require 'chalk'
 
 
@@ -61,28 +60,28 @@ uglify = require 'gulp-uglify'
 
 gulp.task "js", ->
   destPath = getProd()
-  # unless config.production
   gulp.src path.scripts
     .pipe sourcemaps.init()
     .pipe coffee()
     .pipe sourcemaps.write()
     .pipe gulp.dest "#{destPath}/scripts"
     .pipe connect.reload()
-  # else
-  #   gulp.src path.scripts
-  #     .pipe sourcemaps.init()
-  #     .pipe coffee()
-  #     .pipe uglify()
-  #     .pipe concat "main.js"
-  #     .pipe gulp.dest "#{destPath}/scripts"
-  #     .pipe connect.reload()
 
+jshint = require 'gulp-jshint'
+remember = require 'gulp-remember'
 amdOptimize = require "amd-optimize"
-concat = require "gulp-concat",
+concat = require "gulp-concat"
+
 gulp.task "rjs", ->
   gulp.src path.scripts
   .pipe coffee()
-  .pipe amdOptimize "main"
+  .pipe jshint()
+  .pipe remember 'rjs'
+  .pipe amdOptimize "main", {
+    name: "main"
+    configFile: "./app/scripts/main.js"
+    baseUrl: './app/scripts'
+  }
   .pipe concat "main-bundle.js"
   .pipe uglify()
   .pipe gulp.dest "prod/scripts"
@@ -239,6 +238,7 @@ gulp.task "prod", gulpsync.sync PROD_TASKS
 
 ###
 todo rjs build
+todo browserify
 todo запилить сборку в продакшн
 todo запилить прокси сервер
 todo запилить деплой
