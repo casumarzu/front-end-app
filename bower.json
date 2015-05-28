@@ -24,6 +24,7 @@
     "bootstrap-sass": "~3.0.2",
     "fabric": "~1.5.0",
     "modernizr": "~2.8.3",
-    "reset-css": "~2.0.20110126"
+    "reset-css": "~2.0.20110126",
+    "animate.css": "~3.3.0"
   }
 }

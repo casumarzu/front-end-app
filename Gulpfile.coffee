@@ -7,6 +7,7 @@ _ = require 'lodash'
 # _ = require 'underscore'
 chalk = require 'chalk'
 
+
 ###
   configs
 ###
@@ -101,7 +102,7 @@ gulp.task 'sass', ->
     sourceComments: 'normal'
     includePaths: [ 'app/bower_components/' ]
     errLogToConsole: true))
-  .pipe($.autoprefixer('last 3 version'))
+  .pipe($.autoprefixer('last 7 version', 'ie 8', 'ie 9'))
   .pipe gulp.dest("#{destPath}/styles")
   # .pipe(concat("#{destPath}/main.css"))
   .pipe(sass().on('error', sass.logError))
@@ -192,6 +193,12 @@ gulp.task 'addData', ->
   images = []
   _.each [1..120], (e)=>
     @storage.set 'image', "/images/image-#{e}.png"
+
+
+shell = require 'gulp-shell'
+
+gulp.task 'start', shell.task ['cd /Users/andrey/projects/exp/workflow/example-project/ && subl . && stree']
+
 
 DEV_TASKS = do ->
   build = [
