@@ -6,7 +6,7 @@ class ShitClass
     @console()
 
   console:->
-    _.each [1..10], (e)->
+    _.each [1..5], (e)->
       string = "Shit number - #{e}"
       console.log string
       $('body').append "<div class='shit-item'><div class='text-gradient-green'>#{string}</div></div>"

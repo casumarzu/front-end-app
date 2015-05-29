@@ -6,6 +6,11 @@ gulpif = require 'gulp-if'
 _ = require 'lodash'
 chalk = require 'chalk'
 
+jshint = require 'gulp-jshint'
+remember = require 'gulp-remember'
+concat = require "gulp-concat"
+
+
 ###
   configs
 ###
@@ -86,36 +91,7 @@ gulp.task "clean", ->
     .pipe vinylPaths(del)
 
 coffee = require 'gulp-coffee'
-concat = require 'gulp-concat'
 uglify = require 'gulp-uglify'
-
-gulp.task "js", ->
-  destPath = getProd()
-  gulp.src path.scripts
-    .pipe sourcemaps.init()
-    .pipe coffee()
-    .pipe sourcemaps.write()
-    .pipe gulp.dest "#{destPath}/scripts"
-    .pipe connect.reload()
-
-jshint = require 'gulp-jshint'
-remember = require 'gulp-remember'
-amdOptimize = require "amd-optimize"
-concat = require "gulp-concat"
-
-gulp.task "rjs", ->
-  gulp.src path.scripts
-  .pipe coffee()
-  .pipe jshint()
-  .pipe remember 'rjs'
-  .pipe amdOptimize "main", {
-    name: "main"
-    configFile: "./app/scripts/main.js"
-    baseUrl: './app/scripts'
-  }
-  .pipe concat "main-bundle.js"
-  .pipe uglify()
-  .pipe gulp.dest "prod/scripts"
 
 
 browserify = require 'browserify'
