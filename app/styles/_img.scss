@@ -7,6 +7,14 @@
 }
 $img_dogs__width: 150px;
 $img_dogs__height: 100px;
+@mixin img_favicon(){
+  width: 16px;
+  height: 16px;
+  background-image: url(../images/favicon.gif);
+  background-size: 16px 16px;
+}
+$img_favicon__width: 16px;
+$img_favicon__height: 16px;
 @mixin img_image(){
   width: 500px;
   height: 326px;

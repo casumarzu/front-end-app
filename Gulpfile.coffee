@@ -36,26 +36,45 @@ getProd = ->
 livereload = require 'gulp-livereload'
 connect = require 'gulp-connect'
 modRewrite = require 'connect-modrewrite'
+Proxy = require 'gulp-connect-proxy'
 
-gulp.task 'connect', ->
+gulp.task 'server', ->
   destPath = getProd()
   connect.server
     root: "#{destPath}"
     livereload: true
     port: 8000
 
-
-Proxy = require 'gulp-connect-proxy'
-
-gulp.task "server", ->
+gulp.task "serverProxy", ->
   destPath = getProd()
   connect.server
-    root: "./#{destPath}"
+    root: "#{destPath}"
+    livereload: true
     port: 9000
+    host: 'http://be-better.snpdev.ru'
+    open:
+      file: 'index.html'
+      browser: 'chrome'
     middleware: (connect, opt) ->
+      console.log 'serverProxy', opt
       opt.route = "/proxy"
       proxy = new Proxy(opt)
       [ proxy ]
+
+gulp.task "reload", ->
+  gulp.src path.scripts
+    .pipe connect.reload()
+
+browserSync = require('browser-sync').create()
+
+gulp.task "browser-sync", ->
+  browserSync.init
+    open: true
+    reloadDelay: 500
+    reloadDebounce: 2000
+    port: 9000
+    proxy:
+      target: "localhost:8000"
 
 clean = require 'gulp-clean'
 vinylPaths = require "vinyl-paths"
@@ -203,10 +222,6 @@ gulp.task "watch", ->
   gulp.watch path.html, ["html"]
   gulp.watch path.bower_components, ["clean", "copy"]
 
-browserSync = require('browser-sync').create()
-
-gulp.task "browser-sync", -> browserSync.init proxy: "localhost:8000"
-
 cssimage = require 'gulp-css-image'
 
 gulp.task "cssimage", ->
@@ -246,21 +261,22 @@ gulp.task 'addData', ->
 
 shell = require 'gulp-shell'
 
-gulp.task 'start', shell.task ['cd /Users/andrey/projects/exp/workflow/example-project/ && subl . && stree']
+gulp.task 'start', shell.task ['subl . && stree']
 
 
 DEV_TASKS = do ->
   build = [
     'clean'
     'copy'
-    'watch'
     'sass'
     'cssimage'
     'html'
     'sprite'
-    'connect'
+    'server'
+    # 'serverProxy'
     'browser-sync'
     'browserify'
+    'watch'
   ]
   build
 
@@ -273,7 +289,8 @@ PROD_TASKS = do ->
     'sass'
     'cssimage'
     'html'
-    'connect'
+    'server'
+    # 'serverProxy'
     'browser-sync'
     'browserify-nowatch'
   ]
@@ -285,6 +302,5 @@ gulp.task "prod", gulpsync.sync PROD_TASKS
 
 
 ###
-todo запилить прокси сервер
 todo запилить деплой
 ###

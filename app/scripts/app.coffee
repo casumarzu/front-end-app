@@ -6,6 +6,7 @@ require './items/item3.coffee'
 require './items/item4.coffee'
 require './items/item5.coffee'
 
+_ = require 'lodash'
 $ = require 'jquery'
 
 Common = require './common.coffee'
@@ -26,10 +27,10 @@ class App
   constructor:->
     console.log 'app initialize!'
 
-  baseUrl: 'http://localhost:9000/proxy/be-better.snpdev.ru'
+  # baseUrl: 'http://localhost:9000/proxy/be-better.snpdev.ru'
   request:->
     $.ajax
-      url: "#{@baseUrl}/api/pages"
+      url: "/api/pages"
       data:
         page: 'index'
       dataType: 'json'

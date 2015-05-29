@@ -29,11 +29,11 @@ frontend incoming
   default_backend www_frontend_pushstate
 
 backend www_frontend
-  server nodehost 127.0.0.1:8000
+  server nodehost 127.0.0.1:9000
 
 backend www_frontend_pushstate
   reqrep ^GET\ /(.*)\ HTTP/1.1 GET\ /index.html\ HTTP/1.1
-  server nodehost 127.0.0.1:8000
+  server nodehost 127.0.0.1:9000
 
 backend www_api_backend
   reqirep ^Host: Host:\ be-better.snpdev.ru
