@@ -6,7 +6,6 @@ gulpif = require 'gulp-if'
 _ = require 'lodash'
 chalk = require 'chalk'
 
-
 ###
   configs
 ###
@@ -44,6 +43,19 @@ gulp.task 'connect', ->
     root: "#{destPath}"
     livereload: true
     port: 8000
+
+
+Proxy = require 'gulp-connect-proxy'
+
+gulp.task "server", ->
+  destPath = getProd()
+  connect.server
+    root: "./#{destPath}"
+    port: 9000
+    middleware: (connect, opt) ->
+      opt.route = "/proxy"
+      proxy = new Proxy(opt)
+      [ proxy ]
 
 clean = require 'gulp-clean'
 vinylPaths = require "vinyl-paths"
