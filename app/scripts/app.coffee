@@ -1,41 +1,75 @@
+$ = 'jquery'
+_ = require 'underscore'
+angular = require 'angular'
+ngRoute = require 'angular-route'
 
-Shit = require './shit.coffee'
-require './items/item1.coffee'
-require './items/item2.coffee'
-require './items/item3.coffee'
-require './items/item4.coffee'
-require './items/item5.coffee'
+app = angular.module "app", ['ngRoute']
 
-_ = require 'lodash'
-$ = require 'jquery'
+app.controller 'MainController', ($scope, $route, $routeParams, $location)->
+  $scope.$route = $route
+  $scope.$location = $location
+  $scope.$routeParams = $routeParams
 
-Common = require './common.coffee'
+app.controller 'HomeCtrl', ($scope, $routeParams)->
+  $scope.title = "Home page"
+  $scope.num = 1
+  $scope.incr = ->
+    $scope.num++
+  $scope.decr = ->
+    if $scope.num > 0
+      $scope.num--
+  $scope.alert = ->
+    alert $scope.title
 
-window.addEventListener 'load', ->
-  window.app = new App
-  app.request()
+app.controller 'AboutCtrl', ($scope, $routeParams)->
+  $scope.title = "About page"
+  $scope.alert = ->
+    alert $scope.title
 
-  window.common = new Common
-  # common.generateRhomb '#image-rhomb', '/images/dogs.gif'
-  # common.generateScalableBlock el: '#image-rhomb'
+app.controller 'ContactCtrl', ($scope, $routeParams)->
+  $scope.title = "Cont page"
+  $scope.alert = ->
+    alert $scope.title
 
-  shitty = new Shit
+app.config ($routeProvider, $locationProvider) ->
+  $routeProvider
+  .when("/", {
+      templateUrl: "../templates/home.html"
+      controller: "HomeCtrl"
+    }
+  )
+  .when("/about", {
+      templateUrl: "../templates/about.html"
+      controller: "AboutCtrl"
+    }
+  )
+  .when("/contact", {
+      templateUrl: "../templates/contact.html"
+      controller: "ContactCtrl"
+      # resolve:
+      #   delay: ($q, $timeout) ->
+      #     delay = $q.defer()
+      #     $timeout delay.resolve, 1000
+      #     delay.promise
+    }
+  )
+
+  # $locationProvider.html5Mode true
 
 
+# class App
+#   constructor:->
+#     console.log 'app initialize!'
 
-class App
-  constructor:->
-    console.log 'app initialize!'
-
-  # baseUrl: 'http://localhost:9000/proxy/be-better.snpdev.ru'
-  request:->
-    $.ajax
-      url: "/api/pages"
-      data:
-        page: 'index'
-      dataType: 'json'
-      type: "GET"
-    .done (data)->
-      console.log data
-    .fail (data)->
-      console.log 'fail', data
+#   # baseUrl: 'http://localhost:9000/proxy/be-better.snpdev.ru'
+#   request:->
+#     $.ajax
+#       url: "/api/pages"
+#       data:
+#         page: 'index'
+#       dataType: 'json'
+#       type: "GET"
+#     .done (data)->
+#       console.log data
+#     .fail (data)->
+#       console.log 'fail', data
