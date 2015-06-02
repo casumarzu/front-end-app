@@ -1,4 +1,4 @@
-exports.HomeCtrl = ($scope)->
+HomeCtrl = ($scope)->
   $scope.title = "Home page"
   $scope.num = 1
   $scope.incr = ->
@@ -31,3 +31,9 @@ exports.HomeCtrl = ($scope)->
     }
 
   $scope.odd = true
+
+module.exports = HomeCtrl
+
+# для добавления отдельных модулей
+# exports.AlertCtrl = -> alert 'hello'
+# exports.Alert@Ctrl = -> alert 'hello2'

@@ -11,18 +11,14 @@ app.controller 'MainController', ($scope, $route, $routeParams, $location)->
   $scope.$routeParams = $routeParams
 
 HomeCtrl = require './controllers/home.coffee'
+AboutCtrl = require './controllers/about.coffee'
+ContactCtrl = require './controllers/contact.coffee'
 
-app.controller('HomeCtrl', ['$scope', HomeCtrl.HomeCtrl])
+app.controller 'HomeCtrl', ['$scope', HomeCtrl]
 
-app.controller 'AboutCtrl', ($scope, $routeParams)->
-  $scope.title = "About page"
-  $scope.alert = ->
-    alert $scope.title
+app.controller 'AboutCtrl', ['$scope', AboutCtrl]
 
-app.controller 'ContactCtrl', ($scope, $routeParams)->
-  $scope.title = "Cont page"
-  $scope.alert = ->
-    alert $scope.title
+app.controller 'ContactCtrl', ['$scope', ContactCtrl]
 
 app.config ($routeProvider, $locationProvider) ->
   $routeProvider
