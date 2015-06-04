@@ -1,7 +1,10 @@
 AboutCtrl = ($scope)->
-  $scope.title = "About page"
+  $scope.title = "About"
   $scope.alert = ->
     alert $scope.title
+
+  $scope.func = ->
+    console.log angular.uppercase 'Hello Man'
 module.exports = AboutCtrl
 
 # для добавления отдельных модулей

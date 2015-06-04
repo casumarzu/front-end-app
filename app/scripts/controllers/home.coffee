@@ -1,5 +1,5 @@
 HomeCtrl = ($scope)->
-  $scope.title = "Home page"
+  $scope.title = "Home"
   $scope.num = 1
   $scope.incr = ->
     $scope.num++

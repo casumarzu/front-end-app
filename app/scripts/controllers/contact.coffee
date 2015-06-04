@@ -1,5 +1,5 @@
 ContactCtrl = ($scope)->
-  $scope.title = "Cont page"
+  $scope.title = "Contact"
   $scope.alert = ->
     alert $scope.title
 module.exports = ContactCtrl
