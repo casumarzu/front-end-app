@@ -95,20 +95,26 @@ uglify = require 'gulp-uglify'
 
 
 browserify = require 'browserify'
+watchify = require 'watchify'
+reactify = require 'reactify'
 source = require 'vinyl-source-stream'
-watchify = require "watchify"
+coffeeReact = require "coffee-reactify"
 
 browserifyShare = ->
   b = browserify(
     cache: {}
     packageCache: {}
     fullPaths: true
+    entries: [ "./app/scripts/app.coffee" ]
+    extensions: [ ".coffee", ".cjsx" ]
+    debug: true
   )
+
   if watch
     b = watchify(b)
     b.on "update", ->
       bundleShare b
-
+  b.transform coffeeReact
   b.add "./app/scripts/app.coffee"
   bundleShare b
 
