@@ -1,5 +1,6 @@
 .flex-container
   display: flex
+  flex: 2 10px 3 20px
   flex-flow: row wrap
   justify-content: space-around
   // justify-content: space-between
@@ -10,10 +11,11 @@
   text-align: center
   font-size: 10rem
   background: black
+  // margin: 10px
   @for $i from 1 through 12
-    $increment: #{$i/10}rem
+    $increment: #{1 + $i}rem
     &:nth-child(6n + #{$i})
-      font-size: 1rem - $increment
+      font-size: $increment
 
   =colors($colors)
     @each $color in $colors

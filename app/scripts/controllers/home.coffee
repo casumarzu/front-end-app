@@ -28,7 +28,11 @@ HomeCtrl = ($scope)->
   _.each [1..99], (e)->
     $scope.listExp.push {
       name: "Item number #{e}"
+      random: _.random 0, 99
     }
+
+  $scope.alarm = (name)->
+    console.log name
 
   $scope.odd = true
 

@@ -8,5 +8,5 @@ h3 {{num}}
 h4(ng-if="odd") Odd
 h4(ng-if="!odd") Even
 
-ul(ng-repeat="item in listExp")
-  li: a {{item.name}}
+ul
+  li(ng-repeat="item in listExp"): a(ng-click="alarm(item.random)") {{item.name}}
